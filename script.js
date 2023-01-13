@@ -22,12 +22,20 @@ class Book {
         this.author = author;
         this.pages = pages;
         this.readStatus = readStatus;
-        this.info = function () {
-            console.log(`${title} by ${author}, ${pages} pages, ${readStatus}`);
-        };
-        console.log(this.info());
+    }
+    get read(){
+        if(this.readStatus === "on"){
+            return "Read";
+        }else{
+            return "Not Read";
+        }
+    }
+    info(){
+        console.log(`${this.title} by ${this.author}, ${this.pages} pages, ${this.readStatus}`);
     }
 }
+const exBook = new Book("title","author","200","Read");
+console.log(exBook);
 
 function addBookToLibrary(){
     libaryContainer.innerHTML = "";
@@ -48,6 +56,9 @@ function addBookToLibrary(){
         const checkRead = document.createElement("input");
         checkRead.type = "checkbox";
         checkRead.className = "checkRead";
+        if(newBook.readStatus){
+            checkRead.checked = true;
+        }
 
         bookTitle.textContent = `Title: ${newBook.title}`;
         bookAuthor.textContent = `Author: ${newBook.author}`;
@@ -78,7 +89,11 @@ form.addEventListener("submit",(event) => {
     event.preventDefault();
     const fd = new FormData(form);
     const obj = Object.fromEntries(fd);
-    myLibrary.push(obj);
+    console.log(obj);
+    const newBook = new Book(obj.title,obj.author,obj.pages,obj.read);
+    console.log(newBook.read);
+    myLibrary.push(newBook)
+    //myLibrary.push(obj);
     addBookToLibrary();
 });
 addBookToLibrary();
